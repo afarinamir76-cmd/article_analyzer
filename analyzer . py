@@ -1,0 +1,65 @@
+# ================================
+#     تحلیل‌گر مقاله (Article Analyzer)
+#     نویسنده: Dr_Afarin86
+# ================================
+
+def analyze_article(text):
+    words = text.split()
+    word_count = len(words)
+    sentences = text.split(".")
+    sentence_count = len(sentences) - 1
+    
+    print("=" * 30)
+    print("📊 گزارش تحلیل مقاله")
+    print("=" * 30)
+    print(f"📝 تعداد کلمات: {word_count}")
+    print(f"📄 تعداد جملات: {sentence_count}")
+    print("=" * 30)
+
+print("متن مقاله را وارد کن (برای پایان، Enter خالی بزن):")
+lines = []
+while True:
+    line = input()
+    if line == "":
+        break
+    lines.append(line)
+
+text = " ".join(lines)
+analyze_article(text)
+
+# لیست کامل stop words
+stop_words = [
+    "a", "an", "the", "and", "or", "but", "if", "then", "so", "than",
+    "in", "on", "at", "to", "for", "of", "with", "by", "from", "into", 
+    "through", "up", "down", "out", "over", "under", "about", "after",
+    "before", "between", "during", "without", "within", "along", "across",
+    "i", "you", "he", "she", "it", "we", "they", "me", "him", "her", "us", "them",
+    "this", "that", "these", "those", "my", "your", "his", "its", "our", "their",
+    "is", "are", "was", "were", "be", "been", "being",
+    "have", "has", "had", "do", "does", "did",
+    "will", "would", "can", "could", "should", "may", "might", "must",
+    "what", "which", "who", "whom", "whose", "when", "where", "why", "how",
+    "there", "here", "not", "no", "very", "too", "also", "just", "only",
+    "as", "such", "some", "any", "all", "each", "every", "both", "few", 
+    "more", "most", "other", "another", "same", "different", "many", "much"
+]
+
+word_list = text.lower().split()
+
+filtered_words = []
+for word in word_list:
+    clean_word = word.strip(".,!?;:()[]{}'\"")
+    if clean_word and clean_word not in stop_words:
+        filtered_words.append(clean_word)
+
+filtered_freq = {}
+for word in filtered_words:
+    if word in filtered_freq:
+        filtered_freq[word] += 1
+    else:
+        filtered_freq[word] = 1
+
+sorted_filtered = sorted(filtered_freq.items(), key=lambda x: x[1], reverse=True)
+print("\n🔝 پرتکرارترین کلمات اصلی:")
+for i, (word, count) in enumerate(sorted_filtered[:10], 1):
+    print(f"   {i}. {word}: {count} بار")
